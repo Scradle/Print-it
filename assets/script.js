@@ -1,4 +1,4 @@
-const slides = [
+let slides = [
 	{
 		"image":"slide1.jpg",
 		"tagLine":"Impressions tous formats <span>en boutique et en ligne</span>"
@@ -17,64 +17,32 @@ const slides = [
 	}
 ];
 
-
-
-//flêche gauche
-const ArrowLeft = document.querySelector(".arrow_left");
-ArrowLeft.addEventListener('click', function(event) {
-    // Différenciez le clic gauche du clic droit
-    if (event.button === 0) {
-        console.log("Clic gauche sur la flèche gauche");
-    } else if (event.button === 2) {
-        console.log("Clic droit sur la flèche gauche");
-    }
-});
-
-//flêche droite
-const ArrowRight = document.querySelector(".arrow_right");
-ArrowRight.addEventListener('click', function(event) {
-    // Différenciez le clic gauche du clic droit
-    if (event.button === 0) {
-        console.log("Clic gauche sur la flèche droite");
-    } else if (event.button === 2) {
-        console.log("Clic droit sur la flèche droite");
-    }
-});
-
-//nombre de dots grâce au nombre de slide du tableau slides
+let slide = 0;
 const nombreSlides = slides.length;
 console.log("Nombre d'éléments dans le tableau :", nombreSlides);
+
+//nombre de dots grâce au nombre de slide du tableau slides
+const dotsDiv = document.querySelector(".dots");
 for (let i = 0; i < nombreSlides; i++) {
-	let Dot = document.createElement("div");
-    // Récupérer un élément parent existant
-	const Dots = document.querySelector(".dots");
-	// Ajouter le nouvel élément au parent
-	Dots.appendChild(Dot);
-	//ajout de classe sur élément crée
-	Dot.classList.add("dot");
+	const dot = document.createElement("div");
+    dot.classList.add("dot");
+    dotsDiv.appendChild(dot);
+
+    dot.addEventListener("click", () => {
+        showSlide(i);
+    });
 }
 
+// fonction de changement d'image et texte
 
-//initialisation du slide et du dot correspondant
-let Slide = 0;
-let SlideIndex = slides[Slide];
-console.log("Slide affiché :", SlideIndex);
-const Dot = document.querySelector(".dot");
-const DotIndex = Dot[Slide];
-console.log("Dot correspondant :", Slide);
-Dot.classList.add("dot_selected");
-let index = 0;
-
-
-// changement d'image et texte
 function showSlide(index) {
 
 	if (index < 0) {
-        Slide = nombreSlides - 1;
+        slide = nombreSlides - 1;
     } else if (index >= nombreSlides) {
-        Slide = 0;
+        slide = 0;
     } else {
-        Slide = index;
+        slide = index;
     }
 
     // Affiche l'image correspondante
@@ -85,15 +53,54 @@ function showSlide(index) {
     const tagLine = document.querySelector("#banner p");
     tagLine.innerHTML = slides[index].tagLine;
 
+    dotSelected();
 }
 
 function prevSlide() {
-		showSlide(Slide - 1);
+		showSlide(slide - 1);
 }
 	
 function nextSlide() {
-	showSlide(Slide + 1);
+	showSlide(slide + 1);
 }
 
-ArrowLeft.addEventListener("click", prevSlide);
-ArrowRight.addEventListener("click", nextSlide);
+function dotSelected() {
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, index) => {
+        if (index === slide) {
+            dot.classList.add("dot_selected");
+        } else {
+            dot.classList.remove("dot_selected");
+        }
+    });
+}
+
+//flêche gauche
+const arrowLeft = document.querySelector(".arrow_left");
+arrowLeft.addEventListener('click', function(event) {
+    // Différenciez le clic gauche du clic droit
+    if (event.button === 0) {
+        console.log("Clic gauche sur la flèche gauche");
+    } else if (event.button === 2) {
+        console.log("Clic droit sur la flèche gauche");
+    }
+});
+
+//flêche droite
+const arrowRight = document.querySelector(".arrow_right");
+arrowRight.addEventListener('click', function(event) {
+    // Différenciez le clic gauche du clic droit
+    if (event.button === 0) {
+        console.log("Clic gauche sur la flèche droite");
+    } else if (event.button === 2) {
+        console.log("Clic droit sur la flèche droite");
+    }
+});
+
+// au click changement de slide
+arrowLeft.addEventListener("click", prevSlide);
+arrowRight.addEventListener("click", nextSlide);
+
+
+// initialisation de la valeur index de la fonction showSlide à 0
+showSlide(0);
