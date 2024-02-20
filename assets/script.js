@@ -1,4 +1,5 @@
-let slides = [
+// tableau contenant les images et le texte
+const slides = [
 	{
 		"image":"slide1.jpg",
 		"tagLine":"Impressions tous formats <span>en boutique et en ligne</span>"
@@ -17,26 +18,36 @@ let slides = [
 	}
 ];
 
+// initialisation de la valeur slide et mesure du nombre d'éléments dans le tableau
 let slide = 0;
 const nombreSlides = slides.length;
 console.log("Nombre d'éléments dans le tableau :", nombreSlides);
 
-//nombre de dots grâce au nombre de slide du tableau slides
+// affichage du bon nombre de dots grâce au nombre de slide du tableau slides
 const dotsDiv = document.querySelector(".dots");
 for (let i = 0; i < nombreSlides; i++) {
+    // création du dot
 	const dot = document.createElement("div");
+    // ajout de classe css
     dot.classList.add("dot");
+    // attachement du div à un container parent
     dotsDiv.appendChild(dot);
-
-    dot.addEventListener("click", () => {
-        showSlide(i);
+}
+// fonction pour affiché le bon dot sélectionné
+function dotSelected() {
+    const dots = document.querySelectorAll(".dot");
+    dots.forEach((dot, index) => {
+        // conditions pour enlever ou ajouter la classe css spécifique
+        if (index === slide) {
+            dot.classList.add("dot_selected");
+        } else {
+            dot.classList.remove("dot_selected");
+        }
     });
 }
-
 // fonction de changement d'image et texte
-
 function showSlide(index) {
-
+    // condition pour défilement infini
 	if (index < 0) {
         slide = nombreSlides - 1;
     } else if (index >= nombreSlides) {
@@ -45,34 +56,27 @@ function showSlide(index) {
         slide = index;
     }
 
-    // Affiche l'image correspondante
+    // affiche l'image correspondante
     const bannerImage = document.querySelector(".banner-img");
-    bannerImage.src = `./assets/images/slideshow/${slides[index].image}`;
+    bannerImage.src = `./assets/images/slideshow/${slides[slide].image}`;
 
-    // Affiche le texte correspondant
+    // affiche le texte correspondant
     const tagLine = document.querySelector("#banner p");
-    tagLine.innerHTML = slides[index].tagLine;
-
+    tagLine.innerHTML = slides[slide].tagLine;
+    // affiche le dot sélectionné en fonction du slide correspondant
     dotSelected();
+    console.log("valeur de index :", index);
+    console.log("slide affiché :", slide);
+    console.log("image affichée :", slides[slide].image);
+    console.log("texte affiché :", slides[slide].tagLine);
 }
-
+//fonctions pour incrémentation du slide affiché
 function prevSlide() {
 		showSlide(slide - 1);
 }
 	
 function nextSlide() {
 	showSlide(slide + 1);
-}
-
-function dotSelected() {
-    const dots = document.querySelectorAll(".dot");
-    dots.forEach((dot, index) => {
-        if (index === slide) {
-            dot.classList.add("dot_selected");
-        } else {
-            dot.classList.remove("dot_selected");
-        }
-    });
 }
 
 //flêche gauche
@@ -97,10 +101,10 @@ arrowRight.addEventListener('click', function(event) {
     }
 });
 
-// au click changement de slide
+// au click sur les flèches changement de slide
 arrowLeft.addEventListener("click", prevSlide);
 arrowRight.addEventListener("click", nextSlide);
 
 
-// initialisation de la valeur index de la fonction showSlide à 0
+// initialisation du premier dot sélectionné
 showSlide(0);
