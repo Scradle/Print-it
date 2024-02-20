@@ -20,6 +20,7 @@ const slides = [
 // initialisation de la valeur slide et mesure du nombre d'éléments dans le tableau
 let slide = 0;
 const nombreSlides = slides.length;
+console.log("Nombre d'éléments dans le tableau :", nombreSlides);
 
 // affichage du bon nombre de dots grâce au nombre de slide du tableau slides
 const dotsDiv = document.querySelector(".dots");
@@ -63,25 +64,46 @@ function showSlide(index) {
     tagLine.innerHTML = slides[slide].tagLine;
     // affiche le dot sélectionné en fonction du slide correspondant
     dotSelected();
+    console.log("valeur de index :", index);
+    console.log("slide affiché :", slide);
+    console.log("image affichée :", slides[slide].image);
+    console.log("texte affiché :", slides[slide].tagLine);
+}
+//fonctions pour incrémentation du slide affiché
+function prevSlide() {
+		showSlide(slide - 1);
+}
+	
+function nextSlide() {
+	showSlide(slide + 1);
 }
 
 //flêche gauche
 const arrowLeft = document.querySelector(".arrow_left");
 arrowLeft.addEventListener('click', function(event) {
-    // si clic gauche de la souris
+    // Différenciez le clic gauche du clic droit
     if (event.button === 0) {
-        showSlide(slide - 1);
-    } 
+        console.log("Clic gauche sur la flèche gauche");
+    } else if (event.button === 2) {
+        console.log("Clic droit sur la flèche gauche");
+    }
 });
 
 //flêche droite
 const arrowRight = document.querySelector(".arrow_right");
 arrowRight.addEventListener('click', function(event) {
-    //  si clic gauche de la souris
+    // Différenciez le clic gauche du clic droit
     if (event.button === 0) {
-        showSlide(slide + 1);
-    } 
+        console.log("Clic gauche sur la flèche droite");
+    } else if (event.button === 2) {
+        console.log("Clic droit sur la flèche droite");
+    }
 });
+
+// au click sur les flèches changement de slide
+arrowLeft.addEventListener("click", prevSlide);
+arrowRight.addEventListener("click", nextSlide);
+
 
 // initialisation du premier dot sélectionné
 showSlide(0);

@@ -130,19 +130,6 @@ header {
 	right: 10px;
 }
 
-
-/* css rajouté  */
-#banner .arrow:hover {
-	width: 60px;
-	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-#banner .arrow:active {
-	width: 55px;
-	box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-}
-
-
 /* Gestion des points du carrousel */
 .dots {
 	position: absolute;
