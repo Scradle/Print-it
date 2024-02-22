@@ -22,27 +22,33 @@ let slide = 0;
 const nombreSlides = slides.length;
 
 // affichage du bon nombre de dots grâce au nombre de slide du tableau slides
-const dotsDiv = document.querySelector(".dots");
+const dots = document.querySelector(".dots");
 for (let i = 0; i < nombreSlides; i++) {
     // création du dot
 	const dot = document.createElement("div");
-    // ajout de classe css
+    // ajout de classe 
     dot.classList.add("dot");
     // attachement du div à un container parent
-    dotsDiv.appendChild(dot);
+    dots.appendChild(dot);
+    // Ajout d'un écouteur et affichage du slide correspondant si click sur dot
+    dot.addEventListener('click', function() {
+        showSlide(i); 
+    });
 }
+
 // fonction pour affiché le bon dot sélectionné
-function dotSelected() {
-    const dots = document.querySelectorAll(".dot");
-    dots.forEach((dot, index) => {
+function updateDotSelected(slide) {
+    const dotDiv = document.querySelectorAll(".dot");
+    dotDiv.forEach((dot, dotIndex) => {
         // conditions pour enlever ou ajouter la classe css spécifique
-        if (index === slide) {
+        if (dotIndex === slide) {
             dot.classList.add("dot_selected");
         } else {
             dot.classList.remove("dot_selected");
         }
     });
 }
+
 // fonction de changement d'image et texte
 function showSlide(index) {
     // condition pour défilement infini
@@ -53,34 +59,26 @@ function showSlide(index) {
     } else {
         slide = index;
     }
-
     // affiche l'image correspondante
     const bannerImage = document.querySelector(".banner-img");
     bannerImage.src = `./assets/images/slideshow/${slides[slide].image}`;
-
     // affiche le texte correspondant
     const tagLine = document.querySelector("#banner p");
     tagLine.innerHTML = slides[slide].tagLine;
     // affiche le dot sélectionné en fonction du slide correspondant
-    dotSelected();
+    updateDotSelected(slide);
 }
 
-//flêche gauche
+//flêche gauche avec écouteur
 const arrowLeft = document.querySelector(".arrow_left");
-arrowLeft.addEventListener('click', function(event) {
-    // si clic gauche de la souris
-    if (event.button === 0) {
+arrowLeft.addEventListener('click', function() {
         showSlide(slide - 1);
-    } 
 });
 
-//flêche droite
+//flêche droite avec écouteur
 const arrowRight = document.querySelector(".arrow_right");
-arrowRight.addEventListener('click', function(event) {
-    //  si clic gauche de la souris
-    if (event.button === 0) {
+arrowRight.addEventListener('click', function() {
         showSlide(slide + 1);
-    } 
 });
 
 // initialisation du premier dot sélectionné
